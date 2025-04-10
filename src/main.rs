@@ -1,4 +1,4 @@
-//! Fakhr (**فخر** - meaning pride in arabic) is a Bitcoin vanity address generator.
+//! Fakhr (فخر - meaning pride in arabic) is a Bitcoin vanity address generator.
 //!
 //! Supports all Bitcoin script types and networks.
 //!
@@ -28,8 +28,8 @@ struct Args {
     suffix: String,
 }
 
-/// This checks that the suffix only contain characters present in the charset defined
-/// by the prefix, and returns the corresponding [`AddressType`] if there are no conflicts.
+/// This checks that the suffix only contains characters present in the charset defined by the
+/// prefix, and returns the corresponding ([`AddressType`], [`Network`]) tuple if there are no conflicts.
 fn parse_prefix_suffix(prefix: String, suffix: String) -> Result<(AddressType, Network)> {
     // Assemble address type and network tuples
     let (address_type, network) = match prefix.as_str() {
@@ -52,18 +52,16 @@ fn parse_prefix_suffix(prefix: String, suffix: String) -> Result<(AddressType, N
         _ => unreachable!(),
     };
 
-    // Verify that suffix does not contain any characters outside of it's own charset.
+    // Verify that the suffix does not contain
+    // any characters outside of the charset defined by the prefix.
     if matches!(address_type, AddressType::P2pkh | AddressType::P2sh) {
         if let Some(invalid) = suffix.chars().find(|&c| !BASE58_SET.contains(c)) {
-            return Err(anyhow!("Invalid suffix for base58 charset: {}", invalid));
+            return Err(anyhow!("Invalid character for base58 charset: {}", invalid));
         }
     }
-    if matches!(
-        address_type,
-        AddressType::P2wpkh | AddressType::P2wsh | AddressType::P2tr
-    ) {
+    if matches!(address_type, AddressType::P2wpkh | AddressType::P2wsh | AddressType::P2tr) {
         if let Some(invalid) = suffix.chars().find(|&c| !BECH32_SET.contains(c)) {
-            return Err(anyhow!("Invalid suffix for base58 charset: {}", invalid));
+            return Err(anyhow!("Invalid character for bech32 charset: {}", invalid));
         }
     }
 
@@ -71,17 +69,11 @@ fn parse_prefix_suffix(prefix: String, suffix: String) -> Result<(AddressType, N
 }
 
 /// Mine an address with a given `suffix`. Returns the address, the private key and the WIF.
-fn mine(
-    prefix: String,
-    suffix: String,
-    address_type: AddressType,
-    network: Network,
-) -> (String, String, String, u128) {
+ fn mine(prefix: String, suffix: String, address_type: AddressType, network: Network) -> (String, String, String, u128) {
     let mut iter: u128 = 0;
     let secp = Secp256k1::new();
 
     loop {
-        let secp = Secp256k1::new();
         let (secretkey, pubkey) = secp.generate_keypair(&mut rand::thread_rng());
 
         let pubkey = PublicKey::new(pubkey);
@@ -92,49 +84,39 @@ fn mine(
         };
 
         let address = match address_type {
-            AddressType::P2pkh => Address::p2pkh(pubkey, network),
+            AddressType::P2pkh => {
+                Address::p2pkh(pubkey, network)
+            }
             AddressType::P2sh => {
-                let redeem_script = Script::builder()
-                    .push_key(&pubkey)
-                    .push_opcode(bitcoin::opcodes::all::OP_CHECKSIG)
-                    .into_script();
+                let redeem_script =
+                    Script::builder().push_key(&pubkey).push_opcode(bitcoin::opcodes::all::OP_CHECKSIG).into_script();
 
                 Address::p2sh(&redeem_script, network).unwrap()
             }
             AddressType::P2wpkh => {
                 let compressed_pubkey = CompressedPublicKey::from_private_key(&secp, &privkey)
                     .expect("failed to construct a compressed pubkey!");
+
                 Address::p2wpkh(&compressed_pubkey, network)
             }
             AddressType::P2tr => {
                 let keypair = Keypair::from_secret_key(&secp, &secretkey.into());
                 let (x_only_pubkey, _parity) = UntweakedPublicKey::from_keypair(&keypair);
 
-                Address::p2tr(
-                    &secp,
-                    /*internal_key=*/ x_only_pubkey,
-                    /*merkle_root=*/ None,
-                    network,
-                )
+                Address::p2tr(&secp, /*internal_key=*/ x_only_pubkey, /*merkle_root=*/ None, network)
             }
-
             _ => unreachable!(),
         };
 
         println!("{}", address);
 
-        // Check if address contains the `suffix` at the beginning.
+        // Check if address contains the suffix at the beginning.
         let address_string = address.to_string();
         if let Some(sans_prefix) = address_string.strip_prefix(&prefix) {
             if sans_prefix.to_string().starts_with(&suffix) {
                 let wif = privkey.to_wif();
 
-                return (
-                    address.to_string(),
-                    secretkey.display_secret().to_string(),
-                    wif,
-                    iter,
-                );
+                return (address.to_string(), secretkey.display_secret().to_string(), wif, iter);
             }
         }
 

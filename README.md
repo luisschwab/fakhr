@@ -18,7 +18,6 @@ Options:
   -h, --help             Print help
   -V, --version          Print version
 
-
 $ fakhr -p 1 -s Beer
 1HFZSHDvm1pg12eDpHnubiVxjsVHWmCiu1
 14TEQZmXVvQNgS7JT341fGoPkk5iBz1874
