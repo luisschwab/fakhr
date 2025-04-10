@@ -78,6 +78,7 @@ fn mine(
     network: Network,
 ) -> (String, String, String, u128) {
     let mut iter: u128 = 0;
+    let secp = Secp256k1::new();
 
     loop {
         let secp = Secp256k1::new();
