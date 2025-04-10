@@ -6,12 +6,12 @@
 //!   1. Prefix: This determines the script type and the network.
 //!   2. Suffix: This is the vanity + random parts.
 
-use anyhow::{Result, anyhow};
+use std::time::Instant;
 
+use anyhow::{Result, anyhow};
 use bitcoin::key::UntweakedPublicKey;
 use bitcoin::secp256k1::{Keypair, Secp256k1, rand};
 use bitcoin::{Address, AddressType, CompressedPublicKey, Network, PrivateKey, PublicKey, Script};
-
 use clap::builder::PossibleValuesParser;
 use clap::{Parser, command};
 
@@ -69,7 +69,7 @@ fn parse_prefix_suffix(prefix: String, suffix: String) -> Result<(AddressType, N
 }
 
 /// Mine an address with a given `suffix`. Returns the address, the private key and the WIF.
- fn mine(prefix: String, suffix: String, address_type: AddressType, network: Network) -> (String, String, String, u128) {
+fn mine(prefix: String, suffix: String, address_type: AddressType, network: Network) -> (String, String, String, u128) {
     let mut iter: u128 = 0;
     let secp = Secp256k1::new();
 
@@ -84,9 +84,7 @@ fn parse_prefix_suffix(prefix: String, suffix: String) -> Result<(AddressType, N
         };
 
         let address = match address_type {
-            AddressType::P2pkh => {
-                Address::p2pkh(pubkey, network)
-            }
+            AddressType::P2pkh => Address::p2pkh(pubkey, network),
             AddressType::P2sh => {
                 let redeem_script =
                     Script::builder().push_key(&pubkey).push_opcode(bitcoin::opcodes::all::OP_CHECKSIG).into_script();
@@ -132,9 +130,21 @@ fn main() -> anyhow::Result<()> {
 
     let (address_type, network) = parse_prefix_suffix(prefix.clone(), suffix.clone())?;
 
+    let start = Instant::now();
+
     let (address, secret_key, wif, iter) = mine(prefix, suffix, address_type, network);
 
-    println!("\nFound {} in {} iterations", address, iter);
+    let real = start.elapsed().as_secs() + 1;
+
+    println!(
+        "\nFound {} in {} iterations and {:02}:{:02}:{:02} ({} iters / s)",
+        address,
+        iter,
+        real / 3600,
+        real % 3600 / 60,
+        real % 60,
+        iter / real as u128
+    );
     println!("Secret Key: {}", secret_key);
     println!("WIF: {}", wif);
 
