@@ -1,4 +1,4 @@
-# Fakhr
+# Fakhr فخر
 
 Fakhr (**فخر** - meaning _pride_ in arabic) is a Bitcoin vanity address generator.
 
