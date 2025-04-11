@@ -7,5 +7,6 @@ edition = "2024"
 anyhow = "1.0.97"
 bitcoin = { version = "0.32.5", features = ["rand-std"] }
 clap = { version = "4.5.35", features = ["derive"] }
+nostr = "0.40.0"
 num-format = "0.4.4"
 num_cpus = "1.16.0"
