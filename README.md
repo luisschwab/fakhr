@@ -40,7 +40,7 @@ $ fakhr -p 1 -s Beer
 1BeerR9cW4WopD5oMe9yqZmwbvwAY6vVY5
 
 Found 1BeerR9cW4WopD5oMe9yqZmwbvwAY6vVY5 in 2689825 iterations and 00:01:16 (35392 iters / s)
-Secret Key: 8a5eb510b33f75852cc22d8cb120ffbaa6ca42ac95d3427ce45062204f60b190
+SecretKey: 8a5eb510b33f75852cc22d8cb120ffbaa6ca42ac95d3427ce45062204f60b190
 WIF: L1rgdB1gnPp2u4y9qzEuCyFSZtgST1SHsxyTa1DQ8YbNZfy367Jd
 ```
 
