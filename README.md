@@ -2,19 +2,22 @@
 
 Fakhr (**فخر** - meaning _pride_ in arabic) is a Bitcoin vanity address generator.
 
-# Usage
+# Installation
 
 ```
 $ cargo install --path .
+```
 
+# Usage
+```
 $ fakhr --help
-Fakhr (فخر - meaning pride in arabic) is a Bitcoin vanity address generator.
+Fakhr (فخر - meaning pride in arabic) is a vanity Bitcoin address and Nostr key generator.
 
 Usage: fakhr --prefix <PREFIX> --suffix <SUFFIX>
 
 Options:
-  -p, --prefix <PREFIX>  [possible values: 1, 3, bc1q, bc1p, m, n, 2, tb1q, tb1p]
-  -s, --suffix <SUFFIX>  
+  -p, --prefix <PREFIX>  [possible values: 1, 3, bc1q, bc1p, m, n, 2, tb1q, tb1p, npub1]
+  -s, --suffix <SUFFIX>
   -h, --help             Print help
   -V, --version          Print version
 
@@ -23,24 +26,28 @@ $ fakhr -p 1 -s Beer
 14TEQZmXVvQNgS7JT341fGoPkk5iBz1874
 1Fd28Db3xcJzgvoJRFk7rBMWjxBypp8xwB
 1EdHqH7yU1XaoE9oenjvnBTUtKRTjjE6tS
-1L4pZhrua6mN5Aj7Gr6KmEyZ92REnEiY2Y
-17qxa84AdtGXDy9WtTnvaFDABKwRhLeLZ7
-1LFLEqJ5ubG5rbbYfjdZjxjbgAii14uQHf
-1LPy7Wf2a7Rke4amc2cYVt5tzEoMtch7MZ
-1NCzwUhfbGUFV4wTWhnFBrcT6LVCV2X4Wf
-19hPDDoHpum3DRtBPjJPY4JHk2Gatzewq8
 ...
+19hPDDoHpum3DRtBPjJPY4JHk2Gatzewq8
 1GNzNLu5aEURShyoTHf5GA8AJVk3FFd6Le
-1687HEwaGaEQQ4ByVwFJYHasNaLv8kkV8m
-19XsGgBz6WVfjxp3b7w3SXJFAAG5cJPs1q
-15bwWfbqXhwFYLYSgToAPhyb8SVN8omFNa
-1633xLzwm1zrTZF7fsbiSQ23TPBjGaJAmG
-1L1bse5Fp5YYycsyiW7kdzFgnJceHE6Kzs
-1HRCofa9tv4kTCUfw3PnRoMSRhikcXQjy9
-1BeerR9cW4WopD5oMe9yqZmwbvwAY6vVY5
+16KQRD5EjfEsZB9zoJ1gKpNvZggd1LFpm6
+1ArJxbP9rKUcso3ycgcVi5zPR3fi3QvAsA
 
-Found 1BeerR9cW4WopD5oMe9yqZmwbvwAY6vVY5 in 2689825 iterations and 00:01:16 (35392 iters / s)
-SecretKey: 8a5eb510b33f75852cc22d8cb120ffbaa6ca42ac95d3427ce45062204f60b190
-WIF: L1rgdB1gnPp2u4y9qzEuCyFSZtgST1SHsxyTa1DQ8YbNZfy367Jd
+Found 1BeerxiA3utRA69sZxtHDaNqbewLWj9z3C in 00:00:55 and 7,253,641 iterations (131,884 iter/s)
+SecretKey: 036e9c65a99cd0ecc6449505c5851e71f2748088feaa1133e4b119b16304c44b
+WIF: KwLP8bTqyDxxVrpH8wRHtc5wg9F8zxzQW8XFkshcdR57xYGmzbzk
+
+$ fakhr -p npub1 -s n0str
+npub13cws3afpz7yd2zghcasml73skjlcywnh6z85y789dumu07tpsa9scrtqqr
+npub1kkwfvpwz882n7lzlw7p2fgtw3afdq6tdy93a4ldvqssx7rs6xn5sr9wr2l
+npub1ekkuaw42x8dnxj834hg9h74yjwhxxmfgmw0waguyhj72nl5gl5wse5gh0q
+npub18tnyhs3cswwtudgh4xmpa7087cc4jex3n9wg9djve5wrn85azews50ptzq
+...
+npub1w6qy5s0vmdmx0hk7jhvcl9aqdfsvl5ulz4l4c5d038ml6xgxxg7qmt3lu9
+npub1lxsyd05j2w9la0mnyzhcxeu3rkjgt6h0l2gpad97hrwrr0fq9d5qzd595l
+npub1ph83zlrxv97xle49mh4nlk8v7gc9rg4e9twwfs6q22w4vg7yz3dqy3vf33
+npub1wxhtkkl9egp93d2tjsgwt69aj5vrykr4apuh039p8eal07fdyx6qm32mma
+
+Found npub1n0strz0wsmherzvl60etcak9lpjgslay620hznerzt2jwcf57yfql75j8l in 00:07:05 and 54,012,252 iterations (127,087 iter/s)
+SecretKey: nsec14tlymffz6ghunsrnma59fah7gsnurqn8pdewad3dk52d0a4pyq5qd6fxlc
 ```
 
