@@ -35,6 +35,7 @@ $ fakhr -p 1 -s Beer
 1GNzNLu5aEURShyoTHf5GA8AJVk3FFd6Le
 16KQRD5EjfEsZB9zoJ1gKpNvZggd1LFpm6
 1ArJxbP9rKUcso3ycgcVi5zPR3fi3QvAsA
+1BeerxiA3utRA69sZxtHDaNqbewLWj9z3C
 
 Found 1BeerxiA3utRA69sZxtHDaNqbewLWj9z3C in 00:00:55 and 7,253,641 iterations (131,884 iter/s)
 SecretKey: 036e9c65a99cd0ecc6449505c5851e71f2748088feaa1133e4b119b16304c44b
@@ -50,6 +51,7 @@ npub1w6qy5s0vmdmx0hk7jhvcl9aqdfsvl5ulz4l4c5d038ml6xgxxg7qmt3lu9
 npub1lxsyd05j2w9la0mnyzhcxeu3rkjgt6h0l2gpad97hrwrr0fq9d5qzd595l
 npub1ph83zlrxv97xle49mh4nlk8v7gc9rg4e9twwfs6q22w4vg7yz3dqy3vf33
 npub1wxhtkkl9egp93d2tjsgwt69aj5vrykr4apuh039p8eal07fdyx6qm32mma
+npub1n0strz0wsmherzvl60etcak9lpjgslay620hznerzt2jwcf57yfql75j8l
 
 Found npub1n0strz0wsmherzvl60etcak9lpjgslay620hznerzt2jwcf57yfql75j8l in 00:07:05 and 54,012,252 iterations (127,087 iter/s)
 SecretKey: nsec14tlymffz6ghunsrnma59fah7gsnurqn8pdewad3dk52d0a4pyq5qd6fxlc

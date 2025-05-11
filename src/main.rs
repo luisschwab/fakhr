@@ -138,11 +138,10 @@ fn mine_bitcoin(prefix: String, suffix: String, address_type: AddressType, netwo
                 let address_string = address.to_string();
                 if let Some(sans_prefix) = address_string.strip_prefix(&prefix) {
                     if sans_prefix.to_string().starts_with(&suffix) {
-                        let wif = privkey.to_wif();
+                        println!("{}", address.to_string());
 
                         mined.store(true, Ordering::Relaxed);
-
-                        sender.send((address_string, secretkey.display_secret().to_string(), wif)).expect("sender failed to send");
+                        sender.send((address_string, secretkey.display_secret().to_string(), privkey.to_wif())).expect("sender failed to send");
 
                         break;
                     }
@@ -231,10 +230,10 @@ fn mine_nostr(prefix: String, suffix: String) {
                 let sans_prefix = pubkey_clone.strip_prefix(&prefix).expect("failed to strip prefix from bech32-encoded nostr pubkey");
 
                 if sans_prefix.starts_with(&suffix) {
+                    println!("{}", pubkey.to_string());
+
                     let privkey = keys.secret_key().to_bech32().expect("failed to get bech32-encoded nostr privkey");
-
                     mined.store(true, Ordering::Relaxed);
-
                     sender.send((pubkey, privkey)).expect("sender failed to send");
 
                     break;
