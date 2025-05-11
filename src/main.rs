@@ -6,10 +6,13 @@
 //!   1. Prefix: This determines the script type and the network.
 //!   2. Suffix: This is the vanity + random parts.
 
-use std::time::Instant;
-use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
-use std::thread;
 use std::sync::mpsc;
+use std::sync::{
+    Arc,
+    atomic::{AtomicBool, Ordering},
+};
+use std::thread;
+use std::time::Instant;
 
 use anyhow::{Result, anyhow};
 use bitcoin::key::UntweakedPublicKey;
@@ -17,8 +20,8 @@ use bitcoin::secp256k1::{Keypair, Secp256k1, rand};
 use bitcoin::{Address, AddressType, CompressedPublicKey, Network, PrivateKey, PublicKey, Script};
 use clap::builder::PossibleValuesParser;
 use clap::{Parser, command};
-use nostr::nips::nip19::ToBech32;
 use nostr::Keys;
+use nostr::nips::nip19::ToBech32;
 use num_format::{Locale, ToFormattedString};
 
 const BASE58_SET: &str = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
@@ -109,8 +112,10 @@ fn mine_bitcoin(prefix: String, suffix: String, address_type: AddressType, netwo
                 let address = match address_type {
                     AddressType::P2pkh => Address::p2pkh(pubkey, network),
                     AddressType::P2sh => {
-                        let redeem_script =
-                            Script::builder().push_key(&pubkey).push_opcode(bitcoin::opcodes::all::OP_CHECKSIG).into_script();
+                        let redeem_script = Script::builder()
+                            .push_key(&pubkey)
+                            .push_opcode(bitcoin::opcodes::all::OP_CHECKSIG)
+                            .into_script();
 
                         Address::p2sh(&redeem_script, network).unwrap()
                     }
@@ -141,7 +146,9 @@ fn mine_bitcoin(prefix: String, suffix: String, address_type: AddressType, netwo
                         println!("{}", address.to_string());
 
                         mined.store(true, Ordering::Relaxed);
-                        sender.send((address_string, secretkey.display_secret().to_string(), privkey.to_wif())).expect("sender failed to send");
+                        sender
+                            .send((address_string, secretkey.display_secret().to_string(), privkey.to_wif()))
+                            .expect("sender failed to send");
 
                         break;
                     }
@@ -181,7 +188,7 @@ fn mine_bitcoin(prefix: String, suffix: String, address_type: AddressType, netwo
             );
             println!("SecretKey: {}", secret_key);
             println!("WIF: {}", wif);
-        },
+        }
 
         Err(_) => panic!("threads were terminated before finding a match"),
     }
@@ -227,7 +234,9 @@ fn mine_nostr(prefix: String, suffix: String) {
                     println!("{}", pubkey.to_string());
                 }
 
-                let sans_prefix = pubkey_clone.strip_prefix(&prefix).expect("failed to strip prefix from bech32-encoded nostr pubkey");
+                let sans_prefix = pubkey_clone
+                    .strip_prefix(&prefix)
+                    .expect("failed to strip prefix from bech32-encoded nostr pubkey");
 
                 if sans_prefix.starts_with(&suffix) {
                     println!("{}", pubkey.to_string());
@@ -272,7 +281,7 @@ fn mine_nostr(prefix: String, suffix: String) {
                 (total_iterations / elapsed as u128).to_formatted_string(&Locale::en)
             );
             println!("SecretKey: {}", privkey);
-        },
+        }
 
         Err(_) => panic!("threads were terminated before finding a match"),
     }
