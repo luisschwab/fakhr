@@ -1,8 +1,8 @@
+# Fakhr فخر
+
 <p align="center">
   <img src="fakhr.png" width="50%" alt="Fakhr">
 </p>
-
-# Fakhr فخر
 
 Fakhr (**فخر** - meaning _pride_ in arabic) is a vanity Bitcoin address and Nostr key generator.
 
